@@ -13,11 +13,15 @@ class BlogPostObserver
      * @param  BlogPost  $blogPost
      *
      */
-    public function updating(BlogPost $blogPost)
+    public function creating(BlogPost $blogPost)
     {
         $this->setPublishedAt($blogPost);
 
         $this->setSlug($blogPost);
+
+        $this->setHtml($blogPost);
+
+        $this->setUser($blogPost);
     }
 
     /**
@@ -45,7 +49,44 @@ class BlogPostObserver
             $blogPost->slug = \Str::slug($blogPost->title);
         }
     }
+    /**
+     * Установка значення полю content_html відносно поля content_row.
+     *
+     * @param  BlogPost  $blogPost
+     *
+     */
+    protected function setHtml(BlogPost $blogPost)
+    {
+        if ($blogPost->isDirty('content_raw')) {
+            // TODO: Тут повинна бути генерація markdown -> html
+            $blogPost->content_html = $blogPost->content_raw;
+        }
+    }
+    /**
+     * Якщо не вказаний user_id, то встановлюємо користувача за замовчуванням.
+     *
+     * @param  BlogPost  $blogPost
+     *
+     */
+    protected function setUser(BlogPost $blogPost)
+    {
+        $blogPost->user_id = auth()->id() ?? BlogPost::UNKNOWN_USER;
 
+    }
+
+
+    /**
+     * Обробка перед оновленням запису.
+     *
+     * @param  BlogPost  $blogPost
+     *
+     */
+    public function updating(BlogPost $blogPost)
+    {
+        $this->setPublishedAt($blogPost);
+
+        $this->setSlug($blogPost);
+    }
     /**
      * Handle the BlogPost "created" event.
      *
@@ -67,7 +108,13 @@ class BlogPostObserver
     {
         //
     }
-
+    /**
+     * @param  \App\Models\BlogPost  $blogPost
+     */
+    public function deleting(BlogPost $blogPost)
+    {
+        //
+    }
     /**
      * Handle the BlogPost "deleted" event.
      *
