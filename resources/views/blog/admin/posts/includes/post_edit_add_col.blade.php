@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="d-inline-flex p-2 bd-highlight">
     <div class="col-md-12">
         <div class="card">
             <div class="card-body">
@@ -9,7 +9,7 @@
 </div>
 <br>
 @if ($item->exists)
-    <div class="row justify-content-center">
+    <div class="d-inline-flex p-2 bd-highlight">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
@@ -19,7 +19,7 @@
         </div>
     </div>
     <br>
-    <div class="row justify-content-center">
+    <div class="d-inline-flex p-2 bd-highlight">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
